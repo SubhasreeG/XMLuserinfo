@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Search User Details </title>
+    <link rel='stylesheet' href='Style.css' type='text/css' />
+    <script>
+        function readUidXML() {
+            var xmlDocObj, id, name, addr, phone, email;
+            var flag = 0;
+            xmlDocObj = new XMLHttpRequest();
+            xmlDocObj.open("GET", "userdetails.xml", false);
+            xmlDocObj.send();
+            xmlDocObj = xmlDocObj.responseXML;
+            id = xmlDocObj.getElementsByTagName("userid");
+            name = xmlDocObj.getElementsByTagName("username");
+            address = xmlDocObj.getElementsByTagName("address");
+            phone = xmlDocObj.getElementsByTagName("phone");
+            email = xmlDocObj.getElementsByTagName("email");
+            for (i = 0; i < id.length; i++) {
+                output = id[i].firstChild.nodeValue;
+                if (output == document.getElementById("uid").value) {
+                    displayDetails.innerHTML = "<b>ID :</b>" + id[i].firstChild.nodeValue + "<br> " + 
+                                           "<b>Name :</b>" + name[i].firstChild.nodeValue +"<br> " +
+                                           "<b>Address :</b>" + address[i].firstChild.nodeValue + "<br> " + 
+                                           "<b>Phone :</b>" + phone[i].firstChild.nodeValue + "<br>" + 
+                                           "<b>Email :</b>" + email[i].firstChild.nodeValue;
+                    flag = 1;
+                }
+                if(!flag){
+                    displayDetails.innerHTML = "User does not exists";
+                }
+            }
+        }
+    </script>
+</head>
+
+<body style = "text-align: center;">
+    <div class="wrapper">
+        <H1>Search User Details </H1>
+        <div class="form-group">
+            <input type="text" id="uid" class="form-control" placeholder="User id" value=""><br><br>
+            <input type="BUTTON" VALUE="Fetch Details" class="btn-primary" ONCLICK="readUidXML()">
+        </div> 
+        
+        <P>
+        <DIV ID="displayDetails"> </DIV>
+    </div>
+</body>
+
+</html>
